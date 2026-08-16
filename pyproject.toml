@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jerbud"
+version = "0.1.0"
+description = "A minimal Windows dictation tool"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "faster-whisper>=1.0.0",
+  "pynput>=1.7.7",
+  "sounddevice>=0.4.7",
+  "pywin32>=306; platform_system == 'Windows'",
+  "numpy>=2.0.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
