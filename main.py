@@ -2,12 +2,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-SRC = ROOT / "src"
+SRC = ROOT / "src" / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from jerbud.app import Application
-from jerbud.config import load_config
+from jerbud import App, load_config
 
 
 def main() -> None:

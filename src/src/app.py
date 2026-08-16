@@ -12,6 +12,15 @@ from .paste import ClipboardPasteService
 from .stt import SpeechToTextEngine
 from .ui import TinyWindow
 
+# Optional post-processing import
+try:
+    from .postprocess import remove_fillers
+except Exception as _postprocess_import_exc:  # pragma: no cover - optional module
+    remove_fillers = None
+    _postprocess_import_error = _postprocess_import_exc
+else:
+    _postprocess_import_error = None
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -138,13 +147,14 @@ class App:
 
         # Post‑process transcript according to user settings
         if text:
-            try:
-                if getattr(self.config, "auto_fix_fillers", False):
-                    from .postprocess import remove_fillers
-
-                    text = remove_fillers(text)
-            except Exception as exc:
-                logger.warning("Filler removal failed: %s", exc)
+            if getattr(self.config, "auto_fix_fillers", False):
+                if remove_fillers is not None:
+                    try:
+                        text = remove_fillers(text)
+                    except Exception as exc:
+                        logger.warning("Filler removal failed: %s", exc)
+                else:
+                    logger.warning("Filler removal unavailable: %s", _postprocess_import_error)
 
             # Future grammar correction could be added here
             # if getattr(self.config, "auto_grammar", False):

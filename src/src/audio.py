@@ -7,8 +7,8 @@ try:
     import numpy as np
     import sounddevice as sd
 except ImportError:  # pragma: no cover - dependency is installed at runtime
-    np = None
-    sd = None
+    np = None  # type: ignore[assignment]
+    sd = None  # type: ignore[assignment]
 
 
 def normalize_audio(audio: object) -> object:
@@ -57,7 +57,7 @@ class AudioRecorder:
             self._stream = None
 
         if not self._frames:
-            return np.array([], dtype=np.float32) if np is not None else []
+            return np.array([], dtype=np.float32) if np is not None else np.array([], dtype=np.float32)
 
         with self._lock:
             audio = np.concatenate(self._frames, axis=0) if np is not None else self._frames

@@ -1,6 +1,6 @@
-"""Shax package."""
+"""Jerbud package."""
 
-__all__ = ["Application", "AppConfig"]
+__all__ = ["App", "AppConfig", "load_config"]
 
-from .app import Application
-from .config import AppConfig
+from .app import App
+from .config import AppConfig, load_config

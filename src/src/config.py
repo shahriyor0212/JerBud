@@ -54,5 +54,5 @@ def save_config(cfg: AppConfig) -> None:
     """Save configuration to the user's home directory as JSON."""
     try:
         CONFIG_PATH.write_text(json.dumps(asdict(cfg), indent=2, ensure_ascii=False), encoding="utf-8")
-    except Exception:
-        raise
+    except Exception as exc:
+        raise RuntimeError("Failed to save configuration") from exc

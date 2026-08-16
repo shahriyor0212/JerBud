@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ctypes
+import threading
 import time
 from typing import Optional
 
@@ -32,10 +33,15 @@ class ClipboardPasteService:
             self.paste()
 
     def paste(self) -> None:
-        user32 = ctypes.windll.user32
-        user32.keybd_event(0x11, 0, 0, 0)  # VK_CONTROL
-        time.sleep(0.02)
-        user32.keybd_event(0x56, 0, 0, 0)  # VK_V
-        time.sleep(0.02)
-        user32.keybd_event(0x56, 0, 0x0002, 0)
-        user32.keybd_event(0x11, 0, 0x0002, 0)
+        """Simulate Ctrl+V keypress in a background thread to avoid blocking UI."""
+        def _do_paste() -> None:
+            user32 = ctypes.windll.user32
+            user32.keybd_event(0x11, 0, 0, 0)  # VK_CONTROL
+            time.sleep(0.02)
+            user32.keybd_event(0x56, 0, 0, 0)  # VK_V
+            time.sleep(0.02)
+            user32.keybd_event(0x56, 0, 0x0002, 0)
+            user32.keybd_event(0x11, 0, 0x0002, 0)
+
+        thread = threading.Thread(target=_do_paste, daemon=True)
+        thread.start()

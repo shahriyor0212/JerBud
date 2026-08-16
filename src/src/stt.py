@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 from typing import Optional
 
 try:
@@ -13,6 +14,7 @@ class SpeechToTextEngine:
         self.model_size = model_size
         self.language = language
         self._model: Optional[object] = None
+        self._model_lock = threading.Lock()
 
     def _load_model(self) -> None:
         try:
@@ -22,8 +24,9 @@ class SpeechToTextEngine:
                 "faster-whisper is required for speech-to-text. Install the project dependencies first."
             ) from exc
 
-        if self._model is None:
-            self._model = WhisperModel(self.model_size, device="cpu", compute_type="int8")
+        with self._model_lock:
+            if self._model is None:
+                self._model = WhisperModel(self.model_size, device="cpu", compute_type="int8")
 
     def _coerce_audio(self, audio: object) -> object:
         if audio is None:

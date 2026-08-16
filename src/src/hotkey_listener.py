@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 from typing import Callable, Optional
 
 
@@ -27,6 +28,7 @@ class HotkeyListener:
         self._pressed_keys: set[str] = set()
         self._pressed_mouse: set[str] = set()
         self._activated: bool = False
+        self._state_lock = threading.Lock()
 
     @staticmethod
     def normalize_hotkey(hotkey: str) -> str:
@@ -111,20 +113,24 @@ class HotkeyListener:
         def on_key_press(key):
             name = _key_to_name(key)
             if name in {"ctrl", "alt", "shift", "cmd"}:
-                self._pressed_mods.add(name)
+                with self._state_lock:
+                    self._pressed_mods.add(name)
             else:
                 if name:
-                    self._pressed_keys.add(name)
+                    with self._state_lock:
+                        self._pressed_keys.add(name)
 
         def on_key_release(key):
             name = _key_to_name(key)
             if name in {"ctrl", "alt", "shift", "cmd"}:
-                self._pressed_mods.discard(name)
-                # Changing modifiers should clear activation so a new press is required
-                self._activated = False
+                with self._state_lock:
+                    self._pressed_mods.discard(name)
+                    # Changing modifiers should clear activation so a new press is required
+                    self._activated = False
             else:
                 if name:
-                    self._pressed_keys.discard(name)
+                    with self._state_lock:
+                        self._pressed_keys.discard(name)
 
         def _button_name(btn: mouse.Button) -> Optional[str]:
             # Map mouse.Button.x1/x2 to x1/x2
@@ -139,19 +145,21 @@ class HotkeyListener:
             if not name:
                 return
             if pressed:
-                self._pressed_mouse.add(name)
-                # Activation condition: required modifiers present and required mouse present
-                if required_mouse.issubset(self._pressed_mouse) and required_mods.issubset(self._pressed_mods):
-                    if not self._activated:
-                        try:
-                            self.on_activate()
-                        finally:
-                            # Prevent repeated triggers until the button is released
+                with self._state_lock:
+                    self._pressed_mouse.add(name)
+                    # Activation condition: required modifiers present and required mouse present
+                    if required_mouse.issubset(self._pressed_mouse) and required_mods.issubset(self._pressed_mods):
+                        if not self._activated:
                             self._activated = True
+                            try:
+                                self.on_activate()
+                            except Exception:
+                                pass
             else:
                 # On release, clear pressed state and allow future activations
-                self._pressed_mouse.discard(name)
-                self._activated = False
+                with self._state_lock:
+                    self._pressed_mouse.discard(name)
+                    self._activated = False
 
         # Start listeners
         self._keyboard_listener = keyboard.Listener(on_press=on_key_press, on_release=on_key_release)
@@ -185,7 +193,8 @@ class HotkeyListener:
             self._mouse_listener = None
 
         # Clear pressed state
-        self._pressed_mods.clear()
-        self._pressed_keys.clear()
-        self._pressed_mouse.clear()
-        self._activated = False
+        with self._state_lock:
+            self._pressed_mods.clear()
+            self._pressed_keys.clear()
+            self._pressed_mouse.clear()
+            self._activated = False
