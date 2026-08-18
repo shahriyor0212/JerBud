@@ -11,7 +11,7 @@ from jerbud import App, load_config
 
 def main() -> None:
     config = load_config()
-    app = Application(config)
+    app = App(config)
     app.run()
 
 

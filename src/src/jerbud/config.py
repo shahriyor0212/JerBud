@@ -56,3 +56,16 @@ def save_config(cfg: AppConfig) -> None:
         CONFIG_PATH.write_text(json.dumps(asdict(cfg), indent=2, ensure_ascii=False), encoding="utf-8")
     except Exception as exc:
         raise RuntimeError("Failed to save configuration") from exc
+
+
+def validate_config(cfg: AppConfig) -> AppConfig:
+    """Validate and normalize configuration values."""
+    if cfg.hotkey:
+        cfg.hotkey = cfg.hotkey.strip().lower()
+    if cfg.language:
+        cfg.language = cfg.language.strip().lower()
+    if cfg.mic_index < 0:
+        cfg.mic_index = 0
+    if cfg.stt_model:
+        cfg.stt_model = cfg.stt_model.strip().lower()
+    return cfg

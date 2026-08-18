@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: jerbud
+Version: 0.1.0
+Summary: A minimal Windows dictation tool
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: faster-whisper>=1.0.0
+Requires-Dist: pynput>=1.7.7
+Requires-Dist: sounddevice>=0.4.7
+Requires-Dist: pywin32>=306; platform_system == "Windows"
+Requires-Dist: numpy>=2.0.0
+
+# Jerbud
+
+Jerbud is a minimal, free, local dictation utility for Windows. It listens for a global hotkey, captures microphone input, and pastes the transcribed text into the currently focused app.
+
+## Current status
+
+This scaffold is intentionally minimal and is set up for review before expanding the app.
+
+## Project goals
+
+- Fully free and local-first
+- Python based
+- No database in the MVP
+- One hotkey to start/stop listening
+- Paste into the active application window
+- Minimal UI with tray or small settings window
+
+## Suggested stack
+
+- Python 3.10+
+- `pynput` for global hotkeys
+- `faster-whisper` for local speech-to-text
+- `sounddevice` for microphone capture
+- `pywin32` for Windows integration and paste behavior
+
+## Run
+
+```bash
+python -m main
+```
+
+## Automatic corrections (recommendation)
+
+Jerbud can optionally post-process transcripts to remove filler words (e.g. "uh", "umm") and perform light grammar corrections. Recommended approach:
+
+1) First run a deterministic, rule-based filler-removal pass. This is fast, runs locally, and preserves user privacy. Typical rules: remove repeated filler tokens, trim leading/trailing filler words, and collapse multiple short fillers into a single pause marker.
+
+2) For grammar correction, prefer a local, small model or an on-device tool (for privacy). Tools like `language-tool-python` offer rule-based corrections; a small transformer-based model can perform more natural rewrites but may increase resource usage.
+
+3) Expose these options in settings so users can toggle "Remove filler words" and "Light grammar correction" independently. The UI shipped in this branch includes both options and a brief recommendation dialog.
+
+## Directory layout
+
+- `src/jerbud/` — application package
+- `tests/` — smoke tests

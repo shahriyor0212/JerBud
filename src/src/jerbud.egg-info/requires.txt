@@ -1,0 +1,7 @@
+faster-whisper>=1.0.0
+pynput>=1.7.7
+sounddevice>=0.4.7
+numpy>=2.0.0
+
+[:platform_system == "Windows"]
+pywin32>=306

@@ -16,8 +16,5 @@ dependencies = [
   "numpy>=2.0.0",
 ]
 
-[tool.setuptools]
-package-dir = {"" = "src/src"}
-
 [tool.setuptools.packages.find]
 where = ["src/src"]
