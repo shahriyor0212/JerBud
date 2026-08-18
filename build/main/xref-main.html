@@ -15,7 +15,7 @@
 
 <div class="node">
   <a name="main.py"></a>
-  <a target="code" href="///C:/Users/user/Documents/repos/wisper/shax/main.py" type="text/plain"><tt>main.py</tt></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/main.py" type="text/plain"><tt>main.py</tt></a>
 <span class="moduletype">Script</span>  <div class="import">
 imports:
     <a href="#_collections_abc">_collections_abc</a>
@@ -1528,6 +1528,14 @@ imported by:
  &#8226;   <a href="#importlib.metadata">importlib.metadata</a>
  &#8226;   <a href="#importlib.metadata._meta">importlib.metadata._meta</a>
  &#8226;   <a href="#importlib.resources.readers">importlib.resources.readers</a>
+ &#8226;   <a href="#jerbud.app">jerbud.app</a>
+ &#8226;   <a href="#jerbud.audio">jerbud.audio</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
+ &#8226;   <a href="#jerbud.hotkey_listener">jerbud.hotkey_listener</a>
+ &#8226;   <a href="#jerbud.paste">jerbud.paste</a>
+ &#8226;   <a href="#jerbud.postprocess">jerbud.postprocess</a>
+ &#8226;   <a href="#jerbud.stt">jerbud.stt</a>
+ &#8226;   <a href="#jerbud.ui">jerbud.ui</a>
  &#8226;   <a href="#onnxruntime.capi.onnxruntime_inference_collection">onnxruntime.capi.onnxruntime_inference_collection</a>
  &#8226;   <a href="#packaging._elffile">packaging._elffile</a>
  &#8226;   <a href="#packaging._manylinux">packaging._manylinux</a>
@@ -15252,6 +15260,7 @@ imported by:
 imports:
     <a href="#_ctypes">_ctypes</a>
  &#8226;   <a href="#ctypes._endian">ctypes._endian</a>
+ &#8226;   <a href="#ctypes.wintypes">ctypes.wintypes</a>
  &#8226;   <a href="#nt">nt</a>
  &#8226;   <a href="#os">os</a>
  &#8226;   <a href="#struct">struct</a>
@@ -15279,6 +15288,7 @@ imported by:
  &#8226;   <a href="#filelock._windows">filelock._windows</a>
  &#8226;   <a href="#fsspec.implementations.libarchive">fsspec.implementations.libarchive</a>
  &#8226;   <a href="#huggingface_hub.utils._terminal">huggingface_hub.utils._terminal</a>
+ &#8226;   <a href="#jerbud.paste">jerbud.paste</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#multiprocessing.sharedctypes">multiprocessing.sharedctypes</a>
  &#8226;   <a href="#numpy._core._dtype_ctypes">numpy._core._dtype_ctypes</a>
@@ -15472,6 +15482,7 @@ imported by:
     <a href="#_pyrepl.windows_console">_pyrepl.windows_console</a>
  &#8226;   <a href="#click._winconsole">click._winconsole</a>
  &#8226;   <a href="#colorama.win32">colorama.win32</a>
+ &#8226;   <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#filelock._identity">filelock._identity</a>
  &#8226;   <a href="#filelock._windows">filelock._windows</a>
@@ -15613,6 +15624,7 @@ imported by:
  &#8226;   <a href="#huggingface_hub.utils._safetensors">huggingface_hub.utils._safetensors</a>
  &#8226;   <a href="#huggingface_hub.utils._verification">huggingface_hub.utils._verification</a>
  &#8226;   <a href="#huggingface_hub.utils._xet">huggingface_hub.utils._xet</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
  &#8226;   <a href="#multidict._multidict_py">multidict._multidict_py</a>
  &#8226;   <a href="#packaging._tokenizer">packaging._tokenizer</a>
  &#8226;   <a href="#pprint">pprint</a>
@@ -19137,6 +19149,7 @@ imported by:
  &#8226;   <a href="#faster_whisper.utils">faster_whisper.utils</a>
  &#8226;   <a href="#faster_whisper.vad">faster_whisper.vad</a>
  &#8226;   <a href="#faster_whisper.version">faster_whisper.version</a>
+ &#8226;   <a href="#jerbud.stt">jerbud.stt</a>
  &#8226;   <a href="#main.py">main.py</a>
 
   </div>
@@ -29486,10 +29499,201 @@ imported by:
 
 <div class="node">
   <a name="jerbud"></a>
-  <a target="code" href="" type="text/plain"><tt>jerbud</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/__init__.py" type="text/plain"><tt>jerbud</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#jerbud.app">jerbud.app</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
+
+  </div>
+  <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.app">jerbud.app</a>
+ &#8226;   <a href="#jerbud.audio">jerbud.audio</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
+ &#8226;   <a href="#jerbud.hotkey_listener">jerbud.hotkey_listener</a>
+ &#8226;   <a href="#jerbud.paste">jerbud.paste</a>
+ &#8226;   <a href="#jerbud.postprocess">jerbud.postprocess</a>
+ &#8226;   <a href="#jerbud.stt">jerbud.stt</a>
+ &#8226;   <a href="#jerbud.ui">jerbud.ui</a>
+ &#8226;   <a href="#main.py">main.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="jerbud.app"></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/app.py" type="text/plain"><tt>jerbud.app</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#jerbud.audio">jerbud.audio</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
+ &#8226;   <a href="#jerbud.hotkey_listener">jerbud.hotkey_listener</a>
+ &#8226;   <a href="#jerbud.paste">jerbud.paste</a>
+ &#8226;   <a href="#jerbud.postprocess">jerbud.postprocess</a>
+ &#8226;   <a href="#jerbud.stt">jerbud.stt</a>
+ &#8226;   <a href="#jerbud.ui">jerbud.ui</a>
+ &#8226;   <a href="#logging">logging</a>
+ &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#tkinter">tkinter</a>
+ &#8226;   <a href="#tkinter.messagebox">tkinter.messagebox</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#jerbud">jerbud</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="jerbud.audio"></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/audio.py" type="text/plain"><tt>jerbud.audio</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#numpy">numpy</a>
+ &#8226;   <a href="#sounddevice">sounddevice</a>
+ &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#jerbud.app">jerbud.app</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="jerbud.config"></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/config.py" type="text/plain"><tt>jerbud.config</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#dataclasses">dataclasses</a>
+ &#8226;   <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#json">json</a>
+ &#8226;   <a href="#pathlib">pathlib</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#jerbud.app">jerbud.app</a>
+ &#8226;   <a href="#jerbud.ui">jerbud.ui</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="jerbud.hotkey_listener"></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/hotkey_listener.py" type="text/plain"><tt>jerbud.hotkey_listener</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#pynput">pynput</a>
+ &#8226;   <a href="#pynput.keyboard">pynput.keyboard</a>
+ &#8226;   <a href="#pynput.mouse">pynput.mouse</a>
+ &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#jerbud.app">jerbud.app</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="jerbud.paste"></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/paste.py" type="text/plain"><tt>jerbud.paste</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#ctypes">ctypes</a>
+ &#8226;   <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#time">time</a>
+ &#8226;   <a href="#typing">typing</a>
+ &#8226;   <a href="#win32clipboard">win32clipboard</a>
+ &#8226;   <a href="#win32con">win32con</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#jerbud.app">jerbud.app</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="jerbud.postprocess"></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/postprocess.py" type="text/plain"><tt>jerbud.postprocess</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#jerbud.app">jerbud.app</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="jerbud.stt"></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/stt.py" type="text/plain"><tt>jerbud.stt</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#faster_whisper">faster_whisper</a>
+ &#8226;   <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#numpy">numpy</a>
+ &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#jerbud.app">jerbud.app</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="jerbud.ui"></a>
+  <a target="code" href="///C:/Users/user/Documents/repos/wisper/jerbud/src/src/jerbud/ui.py" type="text/plain"><tt>jerbud.ui</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#jerbud">jerbud</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
+ &#8226;   <a href="#tkinter">tkinter</a>
+ &#8226;   <a href="#tkinter.messagebox">tkinter.messagebox</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#jerbud.app">jerbud.app</a>
 
   </div>
 
@@ -29573,6 +29777,7 @@ imported by:
  &#8226;   <a href="#huggingface_hub.utils._detect_agent">huggingface_hub.utils._detect_agent</a>
  &#8226;   <a href="#huggingface_hub.utils._http">huggingface_hub.utils._http</a>
  &#8226;   <a href="#importlib.metadata">importlib.metadata</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
  &#8226;   <a href="#json.decoder">json.decoder</a>
  &#8226;   <a href="#json.encoder">json.encoder</a>
  &#8226;   <a href="#json.scanner">json.scanner</a>
@@ -29840,6 +30045,7 @@ imported by:
  &#8226;   <a href="#huggingface_hub.utils._auth">huggingface_hub.utils._auth</a>
  &#8226;   <a href="#huggingface_hub.utils.logging">huggingface_hub.utils.logging</a>
  &#8226;   <a href="#huggingface_hub.utils.tqdm">huggingface_hub.utils.tqdm</a>
+ &#8226;   <a href="#jerbud.app">jerbud.app</a>
  &#8226;   <a href="#multiprocessing.util">multiprocessing.util</a>
  &#8226;   <a href="#onnxruntime.transformers.machine_info">onnxruntime.transformers.machine_info</a>
  &#8226;   <a href="#packaging.tags">packaging.tags</a>
@@ -31380,6 +31586,8 @@ imported by:
  &#8226;   <a href="#huggingface_hub.inference._client">huggingface_hub.inference._client</a>
  &#8226;   <a href="#huggingface_hub.inference._common">huggingface_hub.inference._common</a>
  &#8226;   <a href="#huggingface_hub.inference._generated._async_client">huggingface_hub.inference._generated._async_client</a>
+ &#8226;   <a href="#jerbud.audio">jerbud.audio</a>
+ &#8226;   <a href="#jerbud.stt">jerbud.stt</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#numpy">numpy</a>
  &#8226;   <a href="#numpy.__config__">numpy.__config__</a>
@@ -39035,6 +39243,7 @@ imported by:
  &#8226;   <a href="#importlib.resources._common">importlib.resources._common</a>
  &#8226;   <a href="#importlib.resources.abc">importlib.resources.abc</a>
  &#8226;   <a href="#importlib.resources.readers">importlib.resources.readers</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#numpy">numpy</a>
  &#8226;   <a href="#numpy.f2py._backends._meson">numpy.f2py._backends._meson</a>
@@ -47830,7 +48039,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.hotkey_listener">jerbud.hotkey_listener</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#pynput">pynput</a>
  &#8226;   <a href="#pynput._info">pynput._info</a>
  &#8226;   <a href="#pynput._util">pynput._util</a>
@@ -48067,7 +48277,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.hotkey_listener">jerbud.hotkey_listener</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#pynput">pynput</a>
  &#8226;   <a href="#pynput.keyboard">pynput.keyboard</a>
  &#8226;   <a href="#pynput.keyboard._base">pynput.keyboard._base</a>
@@ -48240,7 +48451,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.hotkey_listener">jerbud.hotkey_listener</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#pynput">pynput</a>
  &#8226;   <a href="#pynput.mouse">pynput.mouse</a>
  &#8226;   <a href="#pynput.mouse._base">pynput.mouse._base</a>
@@ -48703,6 +48915,7 @@ imported by:
  &#8226;   <a href="#importlib.resources.readers">importlib.resources.readers</a>
  &#8226;   <a href="#inspect">inspect</a>
  &#8226;   <a href="#ipaddress">ipaddress</a>
+ &#8226;   <a href="#jerbud.postprocess">jerbud.postprocess</a>
  &#8226;   <a href="#json.decoder">json.decoder</a>
  &#8226;   <a href="#json.encoder">json.encoder</a>
  &#8226;   <a href="#json.scanner">json.scanner</a>
@@ -53257,7 +53470,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.audio">jerbud.audio</a>
+ &#8226;   <a href="#main.py">main.py</a>
 
   </div>
 
@@ -54424,6 +54638,11 @@ imported by:
  &#8226;   <a href="#huggingface_hub.utils._xet">huggingface_hub.utils._xet</a>
  &#8226;   <a href="#huggingface_hub.utils.tqdm">huggingface_hub.utils.tqdm</a>
  &#8226;   <a href="#importlib.util">importlib.util</a>
+ &#8226;   <a href="#jerbud.app">jerbud.app</a>
+ &#8226;   <a href="#jerbud.audio">jerbud.audio</a>
+ &#8226;   <a href="#jerbud.hotkey_listener">jerbud.hotkey_listener</a>
+ &#8226;   <a href="#jerbud.paste">jerbud.paste</a>
+ &#8226;   <a href="#jerbud.stt">jerbud.stt</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#multiprocessing.context">multiprocessing.context</a>
  &#8226;   <a href="#multiprocessing.dummy">multiprocessing.dummy</a>
@@ -54552,6 +54771,7 @@ imported by:
  &#8226;   <a href="#huggingface_hub.utils._http">huggingface_hub.utils._http</a>
  &#8226;   <a href="#huggingface_hub.utils._oauth_device">huggingface_hub.utils._oauth_device</a>
  &#8226;   <a href="#huggingface_hub.utils._parsing">huggingface_hub.utils._parsing</a>
+ &#8226;   <a href="#jerbud.paste">jerbud.paste</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#multiprocessing.connection">multiprocessing.connection</a>
  &#8226;   <a href="#multiprocessing.managers">multiprocessing.managers</a>
@@ -54603,6 +54823,7 @@ imports:
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#sys">sys</a>
  &#8226;   <a href="#tkinter.constants">tkinter.constants</a>
+ &#8226;   <a href="#tkinter.messagebox">tkinter.messagebox</a>
  &#8226;   <a href="#traceback">traceback</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#warnings">warnings</a>
@@ -54610,7 +54831,9 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.app">jerbud.app</a>
+ &#8226;   <a href="#jerbud.ui">jerbud.ui</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#tkinter.commondialog">tkinter.commondialog</a>
  &#8226;   <a href="#tkinter.constants">tkinter.constants</a>
  &#8226;   <a href="#tkinter.messagebox">tkinter.messagebox</a>
@@ -54662,7 +54885,10 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.app">jerbud.app</a>
+ &#8226;   <a href="#jerbud.ui">jerbud.ui</a>
+ &#8226;   <a href="#main.py">main.py</a>
+ &#8226;   <a href="#tkinter">tkinter</a>
 
   </div>
 
@@ -56307,6 +56533,12 @@ imported by:
  &#8226;   <a href="#iniconfig">iniconfig</a>
  &#8226;   <a href="#iniconfig._parse">iniconfig._parse</a>
  &#8226;   <a href="#iniconfig.exceptions">iniconfig.exceptions</a>
+ &#8226;   <a href="#jerbud.audio">jerbud.audio</a>
+ &#8226;   <a href="#jerbud.config">jerbud.config</a>
+ &#8226;   <a href="#jerbud.hotkey_listener">jerbud.hotkey_listener</a>
+ &#8226;   <a href="#jerbud.paste">jerbud.paste</a>
+ &#8226;   <a href="#jerbud.postprocess">jerbud.postprocess</a>
+ &#8226;   <a href="#jerbud.stt">jerbud.stt</a>
  &#8226;   <a href="#multidict">multidict</a>
  &#8226;   <a href="#multidict._abc">multidict._abc</a>
  &#8226;   <a href="#multidict._multidict_py">multidict._multidict_py</a>
@@ -57527,7 +57759,8 @@ imported by:
   <a name="win32clipboard"></a>
   <tt>win32clipboard</tt> <span class="moduletype"><tt>C:\Users\user\AppData\Local\Programs\Python\Python314\Lib\site-packages\win32\win32clipboard.pyd</tt></span>  <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.paste">jerbud.paste</a>
+ &#8226;   <a href="#main.py">main.py</a>
 
   </div>
 
@@ -57538,7 +57771,8 @@ imported by:
   <a target="code" href="///C:/Users/user/AppData/Local/Programs/Python/Python314/Lib/site-packages/win32/lib/win32con.py" type="text/plain"><tt>win32con</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
+    <a href="#jerbud.paste">jerbud.paste</a>
+ &#8226;   <a href="#main.py">main.py</a>
 
   </div>
 

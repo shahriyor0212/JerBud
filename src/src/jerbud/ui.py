@@ -111,6 +111,7 @@ class RoundedButton(tk.Canvas):
         self._text_id = None
         self._anim = None
         self._anim_step = 0
+        self._enabled = True
 
         self.bind("<Configure>", self._redraw)
         self.bind("<Enter>", self._animate_to(self._hover_bg))
@@ -118,7 +119,13 @@ class RoundedButton(tk.Canvas):
         self.bind("<ButtonPress-1>", self._animate_to(self._pressed_bg))
         self.bind("<ButtonRelease-1>", self._on_release)
 
+    def set_enabled(self, enabled: bool) -> None:
+        self._enabled = enabled
+        self._redraw()
+
     def _fill(self) -> str:
+        if not self._enabled:
+            return _darken(self._bg, 0.55)
         try:
             return self.itemcget(self._rect_id, "fill")
         except (tk.TclError, TypeError):
@@ -126,6 +133,9 @@ class RoundedButton(tk.Canvas):
 
     def _animate_to(self, target: str):
         def handler(_event=None) -> None:
+            if not self._enabled:
+                self._set_fill(_darken(self._bg, 0.55))
+                return
             if self._anim:
                 self.after_cancel(self._anim)
                 self._anim = None
@@ -151,7 +161,7 @@ class RoundedButton(tk.Canvas):
 
     def _on_release(self, event) -> None:
         self._animate_to(self._bg)(event)
-        if self._command and 0 <= event.x <= self.winfo_width() and 0 <= event.y <= self.winfo_height():
+        if self._command and self._enabled and 0 <= event.x <= self.winfo_width() and 0 <= event.y <= self.winfo_height():
             self._command()
 
     def set_text(self, text: str) -> None:
@@ -164,8 +174,10 @@ class RoundedButton(tk.Canvas):
         if w < 4 or h < 4:
             return
         self.delete("all")
-        self._rect_id = _draw_rounded_rect(self, 1, 1, w - 1, h - 1, self._radius, fill=self._bg, outline="")
-        self._text_id = self.create_text(w / 2, h / 2, text=self._text, fill=self._fg, font=self._font)
+        fill = _darken(self._bg, 0.55) if not self._enabled else self._bg
+        fg = "#64748B" if not self._enabled else self._fg
+        self._rect_id = _draw_rounded_rect(self, 1, 1, w - 1, h - 1, self._radius, fill=fill, outline="")
+        self._text_id = self.create_text(w / 2, h / 2, text=self._text, fill=fg, font=self._font)
 
 
 class _RoundedPanel(tk.Canvas):
@@ -211,7 +223,7 @@ class TinyWindow:
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         width = 340
-        height = 178
+        height = 214
         x = (screen_width // 2) - (width // 2)
         y = screen_height - height - 28
         self.root.geometry(f"{width}x{height}+{x}+{y}")
@@ -278,38 +290,59 @@ class TinyWindow:
 
         self.status_var = tk.StringVar(value="Ready")
         status_row = tk.Frame(outer, bg=DARK)
-        status_row.pack(fill="x", pady=(10, 8))
+        status_row.pack(fill="x", pady=(10, 2))
 
         self.status_dot = tk.Label(
             status_row,
             text="\u25cf",
             fg=STATUS_READY,
             bg=DARK,
-            font=("Segoe UI", 10),
+            font=("Segoe UI", 12),
         )
-        self.status_dot.pack(side="left", padx=(0, 6))
+        self.status_dot.pack(side="left", padx=(0, 8))
 
         self.status_label = tk.Label(
             status_row,
             textvariable=self.status_var,
             fg=TEXT,
             bg=DARK,
-            font=("Segoe UI", 10, "bold"),
+            font=("Segoe UI", 11, "bold"),
             anchor="w",
         )
         self.status_label.pack(side="left", fill="x", expand=True)
 
+        hotkey_hint = tk.Label(
+            outer,
+            text=f"Press {self.app.config.hotkey} to toggle",
+            fg=MUTED,
+            bg=DARK,
+            font=("Segoe UI", 8),
+            anchor="w",
+        )
+        hotkey_hint.pack(fill="x", pady=(0, 8))
+
         controls = tk.Frame(outer, bg=DARK)
         controls.pack(fill="x")
 
-        self.toggle_button = RoundedButton(
+        self.listen_button = RoundedButton(
             controls,
             text="Listen",
-            command=self.app.toggle_recording,
+            command=self.app.start_recording,
             bg=PRIMARY,
             fg="white",
         )
-        self.toggle_button.pack(side="left", expand=True, fill="x")
+        self.listen_button.pack(side="left", expand=True, fill="x")
+
+        self.stop_button = RoundedButton(
+            controls,
+            text="Stop",
+            command=self.app.stop_recording,
+            bg=STATUS_ERROR,
+            fg="white",
+            hover_bg="#EF4444",
+            pressed_bg="#B91C1C",
+        )
+        self.stop_button.pack(side="left", padx=(8, 0), expand=True, fill="x")
 
         self.settings_button = RoundedButton(
             controls,
@@ -320,7 +353,7 @@ class TinyWindow:
             hover_bg="#1F2937",
             pressed_bg="#1A1C20",
         )
-        self.settings_button.pack(side="left", padx=(10, 0), expand=True, fill="x")
+        self.settings_button.pack(side="left", padx=(8, 0), expand=True, fill="x")
 
         caption = tk.Label(
             outer,
@@ -335,6 +368,9 @@ class TinyWindow:
         self._pulsing = False
         self._pulse_id = None
         self.root.bind("<Escape>", lambda *_: self.exit_app())
+
+        # Start with the Stop button disabled
+        self.stop_button.set_enabled(False)
 
         # Entrance animation
         _fade_in(self.root)
@@ -383,8 +419,15 @@ class TinyWindow:
             self.root.after_cancel(self._pulse_id)
             self._pulse_id = None
 
+    def set_listening(self, listening: bool) -> None:
+        """Enable/disable the Listen and Stop buttons based on recording state."""
+        self.listen_button.set_enabled(not listening)
+        self.stop_button.set_enabled(listening)
+
     def set_toggle_text(self, text: str) -> None:
-        self.toggle_button.set_text(text)
+        """Compatibility shim for older app code that toggled a single button label."""
+        if hasattr(self, "toggle_button"):
+            self.toggle_button.set_text(text)
 
     # ---- settings ------------------------------------------------------------
 

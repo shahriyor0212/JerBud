@@ -46,7 +46,7 @@ class App:
 
         # Initialize UI
         self.ui.set_status("Ready")
-        self.ui.set_toggle_text("Listen")
+        self.ui.set_listening(False)
 
     def apply_config(self) -> None:
         """Apply configuration changes at runtime with proper error handling."""
@@ -133,19 +133,21 @@ class App:
             self.recorder.start()
         except RuntimeError as exc:
             self.listening = False
+            self.ui.root.after(0, lambda: self.ui.set_listening(False))
             self._update_ui_status("Mic unavailable")
             logger.error("Mic start error: %s", exc)
             return
 
         self._update_ui_status("Listening...")
         # UI text change must be done on UI thread
-        self.ui.root.after(0, lambda: self.ui.set_toggle_text("Stop"))
+        self.ui.root.after(0, lambda: self.ui.set_listening(True))
 
     def stop_recording(self) -> None:
         if not self.listening:
             return
 
         self.listening = False
+        self.ui.root.after(0, lambda: self.ui.set_listening(False))
         self._update_ui_status("Transcribing...")
         audio = self.recorder.stop()
 
