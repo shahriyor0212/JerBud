@@ -26,7 +26,7 @@ class ClipboardPasteService:
 
         win32clipboard.OpenClipboard()
         win32clipboard.EmptyClipboard()
-        win32clipboard.SetClipboardText(text, win32con.CF_TEXT)
+        win32clipboard.SetClipboardText(text, win32con.CF_UNICODETEXT)
         win32clipboard.CloseClipboard()
 
         if self.auto_paste:

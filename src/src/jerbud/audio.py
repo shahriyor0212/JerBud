@@ -24,9 +24,10 @@ def normalize_audio(audio: object) -> object:
 
 
 class AudioRecorder:
-    def __init__(self, sample_rate: int = 16000, channels: int = 1) -> None:
+    def __init__(self, sample_rate: int = 16000, channels: int = 1, device: Optional[int] = None) -> None:
         self.sample_rate = sample_rate
         self.channels = channels
+        self.device = device
         self._frames: list[object] = []
         self._stream: Optional[object] = None
         self._lock = threading.Lock()
@@ -37,6 +38,7 @@ class AudioRecorder:
 
         self._frames = []
         self._stream = sd.InputStream(
+            device=self.device,
             samplerate=self.sample_rate,
             channels=self.channels,
             dtype="float32",
@@ -57,7 +59,7 @@ class AudioRecorder:
             self._stream = None
 
         if not self._frames:
-            return np.array([], dtype=np.float32) if np is not None else np.array([], dtype=np.float32)
+            return np.array([], dtype=np.float32) if np is not None else []
 
         with self._lock:
             audio = np.concatenate(self._frames, axis=0) if np is not None else self._frames

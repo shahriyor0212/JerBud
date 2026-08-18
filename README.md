@@ -29,15 +29,15 @@ This scaffold is intentionally minimal and is set up for review before expanding
 python -m main
 ```
 
-## Automatic corrections (recommendation)
+## Automatic corrections
 
-Jerbud can optionally post-process transcripts to remove filler words (e.g. "uh", "umm") and perform light grammar corrections. Recommended approach:
+Jerbud can optionally post-process transcripts to remove filler words (e.g. "uh", "umm") and perform light grammar corrections. Both options run on-device with no extra dependencies:
 
-1) First run a deterministic, rule-based filler-removal pass. This is fast, runs locally, and preserves user privacy. Typical rules: remove repeated filler tokens, trim leading/trailing filler words, and collapse multiple short fillers into a single pause marker.
+1) **Remove common filler words** — a deterministic, rule-based pass that strips repeated filler tokens ("uh", "umm", "like", "you know", "I mean") and tidies spacing/punctuation.
 
-2) For grammar correction, prefer a local, small model or an on-device tool (for privacy). Tools like `language-tool-python` offer rule-based corrections; a small transformer-based model can perform more natural rewrites but may increase resource usage.
+2) **Light grammar correction** — a conservative rule-based pass that restores common apostrophes ("cant" → "can't"), capitalizes standalone "i" and sentence starts, and ensures sentences end with punctuation. It intentionally avoids large-scale rewrites.
 
-3) Expose these options in settings so users can toggle "Remove filler words" and "Light grammar correction" independently. The UI shipped in this branch includes both options and a brief recommendation dialog.
+Both are toggled independently in the settings window. All processing is on-device: audio and transcripts never leave your computer.
 
 ## Directory layout
 

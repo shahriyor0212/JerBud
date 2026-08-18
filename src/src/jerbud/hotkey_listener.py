@@ -35,8 +35,11 @@ class HotkeyListener:
         parts = [part.strip().lower() for part in hotkey.split('+') if part.strip()]
         normalized = []
         for part in parts:
-            if part in {"ctrl", "alt", "shift", "cmd", "super", "meta", "win"}:
+            if part in {"ctrl", "alt", "shift", "cmd"}:
                 normalized.append(f"<{part}>")
+            elif part in {"super", "meta", "win"}:
+                # pynput only understands <cmd> for the Windows/Super/Meta key
+                normalized.append("<cmd>")
             else:
                 # preserve mouse tokens as-is (e.g. mouse_x1)
                 normalized.append(part)
@@ -55,7 +58,9 @@ class HotkeyListener:
 
         # Parse hotkey
         parts = [p.strip().lower() for p in self.hotkey.split('+') if p.strip()]
-        modifiers = {p for p in parts if p in {"ctrl", "alt", "shift", "cmd", "super", "meta", "win"}}
+        # Normalize win/super/meta to cmd so parsing matches pynput's key names
+        parts = ["cmd" if p in {"super", "meta", "win"} else p for p in parts]
+        modifiers = {p for p in parts if p in {"ctrl", "alt", "shift", "cmd"}}
         mouse_parts = {p for p in parts if p in {"mouse_x1", "mouse_x2", "x1", "x2", "button_x1", "button_x2"}}
         key_parts = [p for p in parts if p not in modifiers and p not in mouse_parts]
 
@@ -145,16 +150,21 @@ class HotkeyListener:
             if not name:
                 return
             if pressed:
+                should_activate = False
                 with self._state_lock:
                     self._pressed_mouse.add(name)
                     # Activation condition: required modifiers present and required mouse present
                     if required_mouse.issubset(self._pressed_mouse) and required_mods.issubset(self._pressed_mods):
                         if not self._activated:
                             self._activated = True
-                            try:
-                                self.on_activate()
-                            except Exception:
-                                pass
+                            should_activate = True
+                # Call activation outside the lock so long-running work doesn't
+                # block other mouse/keyboard events
+                if should_activate:
+                    try:
+                        self.on_activate()
+                    except Exception:
+                        pass
             else:
                 # On release, clear pressed state and allow future activations
                 with self._state_lock:

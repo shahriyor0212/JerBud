@@ -14,8 +14,9 @@ from .ui import TinyWindow
 
 # Optional post-processing import
 try:
-    from .postprocess import remove_fillers
+    from .postprocess import grammar_correct, remove_fillers
 except Exception as _postprocess_import_exc:  # pragma: no cover - optional module
+    grammar_correct = None
     remove_fillers = None
     _postprocess_import_error = _postprocess_import_exc
 else:
@@ -36,7 +37,7 @@ class App:
 
         # Hotkey listener
         self.listener = HotkeyListener(self.config.hotkey, self.toggle_recording)
-        self.recorder = AudioRecorder()
+        self.recorder = AudioRecorder(device=self.config.mic_index)
         self.stt = SpeechToTextEngine(
             model_size=self.config.stt_model, language=self.config.language
         )
@@ -50,6 +51,9 @@ class App:
     def apply_config(self) -> None:
         """Apply configuration changes at runtime with proper error handling."""
         try:
+            # Normalize/validate new values (hotkey & language casing, mic index)
+            self.config = validate_config(self.config)
+
             # Update basic flags
             self.auto_paste = self.config.auto_paste
 
@@ -58,6 +62,13 @@ class App:
                 self.clipboard = ClipboardPasteService(auto_paste=self.auto_paste)
             except Exception as exc:
                 logger.warning("Failed to reinitialize clipboard service: %s", exc)
+
+            # Recreate recorder if mic device changed
+            try:
+                if self.recorder.device != self.config.mic_index:
+                    self.recorder = AudioRecorder(device=self.config.mic_index)
+            except Exception as exc:
+                logger.warning("Failed to reinitialize recorder: %s", exc)
 
             # Recreate STT engine if language or model changed
             try:
@@ -156,9 +167,15 @@ class App:
                 else:
                     logger.warning("Filler removal unavailable: %s", _postprocess_import_error)
 
-            # Future grammar correction could be added here
-            # if getattr(self.config, "auto_grammar", False):
-            #     text = grammar_correct(text)
+            # Light grammar correction pass (rule-based, on-device)
+            if getattr(self.config, "auto_grammar", False):
+                if grammar_correct is not None:
+                    try:
+                        text = grammar_correct(text)
+                    except Exception as exc:
+                        logger.warning("Grammar correction failed: %s", exc)
+                else:
+                    logger.warning("Grammar correction unavailable: %s", _postprocess_import_error)
 
             try:
                 self.clipboard.copy_text(text)
